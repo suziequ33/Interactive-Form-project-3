@@ -111,11 +111,22 @@ paymentSections.forEach(section => {
 /**Form Validation */
 // I found a example of form submit event at javasript.plainenglish 
 //e.preventDefault DOM Dctiption By Example(RSVP Checkbox)
+//isValid variable represent whether a form filed is valid.- 2-Regular Expression in JS(challenge)
 //.trim() Sting Manipulation with JavaSript(Modification Methods)
 //I found an example of how to Validate and they used .classList. I also looked up .classList @ w3schools.com
 //for (error-border) is on developer.mozilla for border error and also on stackoverflow.
 //I had trouble with 'name-hint'. I was trying just name element. Or querySeletALL. Until you see in index.html name-hint
-
+//in Accessibility for Web Developers(Deliver Information Screen) hint- to provide instructions for the forms.
+//email validate on stackflow exapmle. Notes 2-Regular Expressions in JS(Validating an Email)
+//!emailValid !- logical Not operator. To check if the field is invalid.
+//for activietieInput i copyed the same code from name/email input.
+/**OMG this ws hard code */
+//the zipField would't load until i moved it outside the if statement.
+//was missing a few characters in the CVVRegex and the zipRegex.
+//had a few missspelling in activities and CVV not cw....
+//found an example of cc selected payment method at locastic.com/learnersbucket.com and a youtube vidio/how to create credit form(Web Dev Simplifed)
+//cvvRegex, zipRegex, ccRegex , emailRegex stackoverflow/geeksforgeeks/w3resource
+document.addEventListener('DOMContentLoaded', function() {
 
 const form = document.querySelector('form');
 
@@ -125,6 +136,47 @@ form.addEventListener('submit', e => {
     var isValid = true;
 
     var nameInput = document.getElementById('name');
+    var emailInput = document.getElementById('email');
+    var activitiesInput = document.getElementById('activities');
+
+    var paymentMethods = document.getElementById('payment').value;
+    var paymentMethods = document.getElementById('payment').value;
+    if(paymentMethods === 'credit-card') {
+        var ccNumber = document.getElementById('cc-num');
+        var zipField = document.getElementById('zip');
+        var cvvField = document.getElementById('cvv');
+
+        var ccNumRegex = /^\d{13,16}$/;
+        if(!ccNumRegex.test(ccNumber.value.trim())) {
+            isValid = false;
+            ccNumber.classList.add('error-border');
+            document.getElementById('cc-hint').style.display = 'block';
+        } else {
+            ccNumber.classList.remove('error-border');
+            document.getElementById('cc-hint').style.display = 'none';
+        }
+    
+    var zipRegex = /^\d{5}$/;
+    if (!zipRegex.test(zipField.value.trim())) {
+        isValid = false;
+        zipField.classList.add('error-border');
+        document.getElementById('zip-hint').style.display = 'block';
+    } else {
+        zipField.classList.remove('error-border');
+        document.getElementById('zip-hint').style.display = 'none';
+    }
+
+    var cvvRegex = /^\d{3}$/;
+    if (!cvvRegex.test(cvvField.value.trim())) {
+        isValid = false;
+        cvvField.classList.add('error-border');
+        document.getElementById('cvv-hint').style.display = 'block';
+    } else {
+        cvvField.classList.remove('error-border');
+        document.getElementById('cvv-hint').style.display = 'none';
+    }
+    }
+
     if (nameInput.value.trim() === '') {
         isValid = false;
         nameInput.classList.add('error-border');
@@ -134,7 +186,6 @@ form.addEventListener('submit', e => {
         document.getElementById('name-hint').style.display = 'none';
     }
 
-    var emailInput = document.getElementById('email');
     var emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if(!emailValid.test(emailInput.value.trim())) {
        isValid = false;
@@ -145,7 +196,6 @@ form.addEventListener('submit', e => {
         document.getElementById('email-hint').style.display = 'none';
     }
 
-    var activitiesInput = document.getElementById('activities');
     var activitiesBox = document.getElementById('activities-box');
     var checkedActivities = activitiesBox.querySelectorAll('input[type="checkbox"]:checked');
     if(checkedActivities.length === 0) {
@@ -154,12 +204,30 @@ form.addEventListener('submit', e => {
         document.getElementById('activities-hint').style.display = 'block';
     } else {
         activitiesInput.classList.remove('error-border');
-        document.getElementById(activites-hint).style.display = 'none';
+        document.getElementById('activities-hint').style.display = 'none';
     }
     
-
-
+    });
 });
+/**Accessibility */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
