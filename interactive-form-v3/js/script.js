@@ -114,7 +114,6 @@ paymentSections.forEach(section => {
 //isValid variable represent whether a form filed is valid.- 2-Regular Expression in JS(challenge)
 //.trim() Sting Manipulation with JavaSript(Modification Methods)
 //I found an example of how to Validate and they used .classList. I also looked up .classList @ w3schools.com
-//for (error-border) is on developer.mozilla for border error and also on stackoverflow.
 //I had trouble with 'name-hint'. I was trying just name element. Or querySeletALL. Until you see in index.html name-hint
 //in Accessibility for Web Developers(Deliver Information Screen) hint- to provide instructions for the forms.
 //email validate on stackflow exapmle. Notes 2-Regular Expressions in JS(Validating an Email)
@@ -127,11 +126,19 @@ paymentSections.forEach(section => {
 //found an example of cc selected payment method at locastic.com/learnersbucket.com and a youtube vidio/how to create credit form(Web Dev Simplifed)
 //cvvRegex, zipRegex, ccRegex , emailRegex stackoverflow/geeksforgeeks/w3resource
 document.addEventListener('DOMContentLoaded', function() {
-
 const form = document.querySelector('form');
+const activiChecknoxes = document.querySelectorAll('input[type="checkbox"]');
+var nameInput = document.getElementById('name');    
+var emailInput = document.getElementById('email');
+var activitiesInput = document.getElementById('activities');
+var paymentMethods = document.getElementById('payment');
+var ccNumberInput = document.getElementById('cc-num');
+var zipInput = document.getElementById('zip');
+var cvvInput = document.getElementById('cvv');
+
 
 function activityFocusBlur() {
-const activiChecknoxes = document.querySelectorAll('input[type="checkbox"]');
+
 
 activiChecknoxes.forEach((checkbox) => {
     checkbox.addEventListener('focus', () => {
@@ -141,73 +148,26 @@ activiChecknoxes.forEach((checkbox) => {
         checkbox.parentNode.classList.remove('focus');
     });
 });
-}
-activityFocusBlur();
 
 form.addEventListener('submit', e => {
     e.preventDefault();
 
-const formField = form.querySelectorAll('input, select');
+const formField = [nameInput, emailInput, activitiesInput, ccNumberInput, zipInput, cvvInput];
+const fieldsets = form.querySelectorAll('fieldset');
 formField.forEach((field) => {
     const parentElement = field.parentElement;
-
-    if(!field.checkValidity()) {
-        parentElement.classList.remove('valid');
-        parentElement.classList.add('not-valid');
-       parentElement.lastElementChild.style.display = "block";
-   } else {
-        parentElement.classList.remove('not-valid');
-       parentElement.classList.add('valid');
-parentElement.lastElementChild.style.display = 'none';
-    }
+    parentElement.classList.remove('valid');
+    parentElement.classList.add('not-valid');
+    parentElement.lastElementChild.style.display = "block";
+});
+fieldsets.forEach((fieldset) {
+    fieldset.classList.remove('not-valid');
+    fieldset.classList.add('valid');
+    fieldset.lastElementChild.style.display = 'none';
 });
 
-    var isValid = true;
-
-    var nameInput = document.getElementById('name');
-    var emailInput = document.getElementById('email');
-    var activitiesInput = document.getElementById('activities');
-
-    var paymentMethods = document.getElementById('payment').value;
-    var paymentMethods = document.getElementById('payment').value;
-    if(paymentMethods === 'credit-card') {
-        var ccNumber = document.getElementById('cc-num');
-        var zipField = document.getElementById('zip');
-        var cvvField = document.getElementById('cvv');
-
-        var ccNumRegex = /^\d{13,16}$/;
-        if(!ccNumRegex.test(ccNumber.value.trim())) {
-            isValid = false;
-            ccNumber.classList.add('error-border');
-            document.getElementById('cc-hint').style.display = 'block';
-        } else {
-            ccNumber.classList.remove('error-border');
-            document.getElementById('cc-hint').style.display = 'none';
-        }
-    
-    var zipRegex = /^\d{5}$/;
-    if (!zipRegex.test(zipField.value.trim())) {
-        isValid = false;
-        zipField.classList.add('error-border');
-        document.getElementById('zip-hint').style.display = 'block';
-    } else {
-        zipField.classList.remove('error-border');
-        document.getElementById('zip-hint').style.display = 'none';
-    }
-
-    var cvvRegex = /^\d{3}$/;
-    if (!cvvRegex.test(cvvField.value.trim())) {
-        isValid = false;
-        cvvField.classList.add('error-border');
-        document.getElementById('cvv-hint').style.display = 'block';
-    } else {
-        cvvField.classList.remove('error-border');
-        document.getElementById('cvv-hint').style.display = 'none';
-    }
-    }
-
     if (nameInput.value.trim() === '') {
-        isValid = false;
+        const parentElement = nameInput.parentElement;
         nameInput.classList.add('error-border');
         document.getElementById('name-hint').style.display = 'block';
     } else {
@@ -217,7 +177,7 @@ parentElement.lastElementChild.style.display = 'none';
 
     var emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if(!emailValid.test(emailInput.value.trim())) {
-       isValid = false;
+      
        emailInput.classList.add('error-border');
        document.getElementById('email-hint').style.display = 'block';
     } else {
@@ -228,7 +188,7 @@ parentElement.lastElementChild.style.display = 'none';
     var activitiesBox = document.getElementById('activities-box');
     var checkedActivities = activitiesBox.querySelectorAll('input[type="checkbox"]:checked');
     if(checkedActivities.length === 0) {
-        isValid = false;
+   
         activitiesInput.classList.add('error-border');
         document.getElementById('activities-hint').style.display = 'block';
     } else {
@@ -243,6 +203,39 @@ parentElement.lastElementChild.style.display = 'none';
 //found example of focus and blur in Unit 4,Callback Functions in JS(Using the Same Callback on Multiple Elements.)
 // need to add .not-valid into form addEventListener... befor 
 
+
+if(paymentMethods === 'credit-card') {
+       
+    var ccNumRegex = /^\d{13,16}$/;
+    if(!ccNumRegex.test(ccNumber.value.trim())) {
+        isValid = false;
+        ccNumber.classList.add('error-border');
+        document.getElementById('cc-hint').style.display = 'block';
+    } else {
+        ccNumber.classList.remove('error-border');
+        document.getElementById('cc-hint').style.display = 'none';
+    }
+
+var zipRegex = /^\d{5}$/;
+if (!zipRegex.test(zipField.value.trim())) {
+    isValid = false;
+    zipField.classList.add('error-border');
+    document.getElementById('zip-hint').style.display = 'block';
+} else {
+    zipField.classList.remove('error-border');
+    document.getElementById('zip-hint').style.display = 'none';
+}
+
+var cvvRegex = /^\d{3}$/;
+if (!cvvRegex.test(cvvField.value.trim())) {
+    isValid = false;
+    cvvField.classList.add('error-border');
+    document.getElementById('cvv-hint').style.display = 'block';
+} else {
+    cvvField.classList.remove('error-border');
+    document.getElementById('cvv-hint').style.display = 'none';
+}
+}
 
 
 
