@@ -130,8 +130,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const form = document.querySelector('form');
 
+function activityFocusBlur() {
+const activiChecknoxes = document.querySelectorAll('input[type="checkbox"]');
+
+activiChecknoxes.forEach((checkbox) => {
+    checkbox.addEventListener('focus', () => {
+        checkbox.parentNode.classList.add('focus');
+    });
+    checkbox.addEventListener('blur', () => {
+        checkbox.parentNode.classList.remove('focus');
+    });
+});
+}
+activityFocusBlur();
+
 form.addEventListener('submit', e => {
     e.preventDefault();
+
+const formField = form.querySelectorAll('input, select');
+formField.forEach((field) => {
+    const parentElement = field.parentElement;
+
+    if(!field.checkValidity()) {
+        parentElement.classList.remove('valid');
+        parentElement.classList.add('not-valid');
+       parentElement.lastElementChild.style.display = "block";
+   } else {
+        parentElement.classList.remove('not-valid');
+       parentElement.classList.add('valid');
+parentElement.lastElementChild.style.display = 'none';
+    }
+});
 
     var isValid = true;
 
@@ -210,13 +239,9 @@ form.addEventListener('submit', e => {
     });
 });
 /**Accessibility */
-
-
-
-
-
-
-
+//Relized needed to add the focus, blur and valid not valid into the DOMContentLoaded event. 
+//found example of focus and blur in Unit 4,Callback Functions in JS(Using the Same Callback on Multiple Elements.)
+// need to add .not-valid into form addEventListener... befor 
 
 
 
