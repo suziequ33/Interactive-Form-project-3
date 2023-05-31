@@ -61,7 +61,9 @@ totalCostElem.textContent = 'Total: $' + totalCost;
 /**Payment infor*/
 const payMethod = document.getElementById('payment');
 const paymentSections = document.querySelectorAll('.credit-card, .paypal, .bitcoin');
-document.getElementById('credit-card').style.display = 'block';
+const creditCardSection = document.getElementById('credit-card');
+
+creditCardSection.style.display = 'block';
 
 payMethod.addEventListener('change', e => {
     const selectPayment = e.target.value;
@@ -72,6 +74,8 @@ payMethod.addEventListener('change', e => {
 
     const sectionPayment = document.getElementById(selectPayment);
     sectionPayment.style.display ='block';
+
+
 });
 
 paymentSections.forEach(section => {
@@ -84,20 +88,32 @@ const form = document.querySelector('form');
 const nameInput = document.getElementById('name');    
 const nameHint = nameInput.parentElement.lastElementChild;
 const emailInput = document.getElementById('email');
+const emailHint = document.getElementById('email-hint');
 const activitiesInput = document.querySelector('.activities');
 const paymentMethods = document.getElementById('payment');
 const ccNumberInput = document.getElementById('cc-num');
+const ccHint = document.getElementById('cc-hint');
 const zipInput = document.getElementById('zip');
+const zipHint = document.getElementById('zip-hint');
 const cvvInput = document.getElementById('cvv');
+const cvvHint = document.getElementById('cvv-hint');
 const activitiesCheckboxes = document.querySelectorAll('.activities input[type="checkbox"]');
 
 //show the name hint on focus and hide it on blur
-nameInput.addEventListener('focus', () =>  {
-    nameHint.style.display = 'block';
-});
-nameInput.addEventListener('blur', () => {
-    nameHint.style.display = 'none';
-});
+function addFoucsBlurEvents(inputElement, hintElement) {
+    inputElement.addEventListener('focus', () => {
+        hintElement.style.display = 'block';
+    });
+    inputElement.addEventListener('blur', () => {
+        hintElement.style.display = 'none';
+    });
+}
+
+addFoucsBlurEvents(nameInput, nameHint);
+addFoucsBlurEvents(emailInput, emailHint);
+addFoucsBlurEvents(ccNumberInput, ccHint);
+addFoucsBlurEvents(zipInput, zipHint);
+addFoucsBlurEvents(cvvInput, cvvHint);
 
 //adds focus and blur eventListeners to activity checkboxes
 activitiesCheckboxes.forEach((checkbox) => {
@@ -113,6 +129,7 @@ activitiesCheckboxes.forEach((checkbox) => {
 
 //validate name field
 form.addEventListener('submit', e => {
+
     if(nameInput.value.trim() === '') {
         e.preventDefault();
         nameInput.parentElement.classList.add('not-valid');
@@ -127,14 +144,14 @@ form.addEventListener('submit', e => {
     //Validate email field
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if(!emailValid.test(emailInput.value.trim())) {
-      e.preventDefault();
+        e.preventDefault();
         emailInput.parentElement.classList.add('not-valid');
         emailInput.parentElement.classList.remove('valid');
-        emailInput.parentElement.lastElementChild.style.display = 'block';
+        emailHint.style.display = 'block';
     } else {
         emailInput.parentElement.classList.add('valid');
         emailInput.parentElement.classList.remove('not-valid');
-        emailInput.parentElement.lastElementChild.style.display = 'none';
+        emailHint.style.display = 'none';
     }
     
     //Validate activities field
@@ -157,38 +174,42 @@ form.addEventListener('submit', e => {
             e.preventDefault();
            ccNumberInput.parentElement.classList.add('not-valid');
             ccNumberInput.parentElement.classList.remove('valid');
-           ccNumberInput.parentElement.lastElementChild.style.display = 'block';
+           ccHint.style.display = 'block';
         } else {
            ccNumberInput.parentElement.classList.add('valid');
             ccNumberInput.parentElement.classList.remove('not-valid');
-            ccNumberInput.parentElement.lastElementChild.style.display = "none";
-}
+           ccHint.style.display = "none";
+        }
+    
     //Validate zip code field 
     const zipRegex =  /^\d{5}$/;
     if (!zipRegex.test(zipInput.value.trim())) {
        e.preventDefault();
         zipInput.parentElement.classList.add('not-valid');
         zipInput.parentElement.classList.remove('valid');
-        zipInput.parentElement.lastElementChild.style.display = 'block';
+        zipHint.style.display = 'block';
     } else {
         zipInput.parentElement.classList.add('valid');
         zipInput.parentElement.classList.remove('not-valid');
-        zipInput.parentElement.lastElementChild.style.display = 'none'; 
+        zipHint.style.display = 'none'; 
     }
+
     //Validate credit card CVV field
+  
     const cvvRegex = /^\d{3}$/;
     if (!cvvRegex.test(cvvInput.value.trim())) {
         e.preventDefault();
         cvvInput.parentElement.classList.add('not-valid');
         cvvInput.parentElement.classList.remove('valid');
-        cvvInput.parentElement.lastElementChild.style.display = 'block';
+        cvvHint.style.display = 'block';
     } else {
         cvvInput.parentElement.classList.add('valid');
         cvvInput.parentElement.classList.remove('not-valid');
-        cvvInput.parentElement.lastElementChild.style.display = 'none'; 
+        cvvHint.style.display = 'none'; 
     }
-    }
-});
+    }      
+    });
+   
 
 /**Job Role */
 /*I had som trubble with this one. I know it was just a true or false answer
@@ -233,7 +254,7 @@ notes DOM Scription my examble./filter invitess who have not responded.took a fe
 //email validate on stackflow exapmle. Notes 2-Regular Expressions in JS(Validating an Email)
 //!emailValid !- logical Not operator. To check if the field is invalid.
 //for activietieInput i copyed the same code from name/email input.
-/**OMG this ws hard code */
+/**OMG this was hard code */
 //was missing a few characters in the CVVRegex and the zipRegex.
 //had a few missspelling in activities and CVV not cw....
 //found an example of cc selected payment method at locastic.com/learnersbucket.com and a youtube vidio/how to create credit form(Web Dev Simplifed)
@@ -245,4 +266,7 @@ notes DOM Scription my examble./filter invitess who have not responded.took a fe
 //example of display form validation hint with form elements at stackoverflow.
 //lastElementChild property at eveloper.mozilla element: lastElementChild propety.
 //valid, not-valid 2-Redular Expressions in JS. 
+//had trouble with activititesInput kept saying it waws not a function. Until i first got the checkbox with 
+//activitiesInput then added all checked chackboxes into activitiesCecked. 
+//forgot to add the hint , i dont even know if i did this right.
 
