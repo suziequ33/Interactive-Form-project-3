@@ -21,9 +21,11 @@ titleJob.addEventListener('change', e => {
 const shirtColor = document.getElementById('color');
 const shirtDesign = document.getElementById('design');
 const colorChildren = document.getElementById('color').children;
+shirtColor.disabled = true;
 
 shirtDesign.addEventListener('change', (e) => {
     shirtColor.disabled = false;
+
     const selectDesign = shirtDesign.value;
 
     for(let i = 0; i < shirtColor.options.length; i++) {
@@ -60,29 +62,34 @@ totalCostElem.textContent = 'Total: $' + totalCost;
 }); 
 /**Payment infor*/
 const payMethod = document.getElementById('payment');
-const paymentSections = document.querySelectorAll('.credit-card, .paypal, .bitcoin');
 const creditCardSection = document.getElementById('credit-card');
+const paypalSecetion = document.getElementById('paypal');
+const bitcoinSectionn = document.getElementById('bitcoin');
 
-creditCardSection.style.display = 'block';
+payMethod.value = 'credit-card';
+
+paypalSecetion.style.display = 'none';
+bitcoinSectionn.style.display = 'none';
 
 payMethod.addEventListener('change', e => {
-    const selectPayment = e.target.value;
+    const selectPayment = payMethod.value;
 
-    paymentSections.forEach(section => {
-        section.style.display = 'none';
-    });
+    creditCardSection.style.display = 'none';
+    paypalSecetion.style.display = 'none';
+    bitcoinSectionn.style.display = 'none';
 
-    const sectionPayment = document.getElementById(selectPayment);
-    sectionPayment.style.display ='block';
-
-
-});
-
-paymentSections.forEach(section => {
-    if (section.id !== 'credit-card') {
-        section.style.display = 'none';
+    if (selectPayment === 'credit-card') {
+        creditCardSection.style.display = 'block';
+    } else if (selectPayment === 'paypal') {
+        paypalSecetion.style.display = 'block';
+    } else if (selectPayment === 'bitcoin') {
+        bitcoinSectionn.style.display = 'block';
     }
 });
+creditCardSection.style.display = 'block'
+paypalSecetion.style.display = 'none';
+bitcoinSectionn.style.display = 'none';
+
 /**Form Validation */
 const form = document.querySelector('form');
 const nameInput = document.getElementById('name');    
@@ -105,7 +112,10 @@ function addFoucsBlurEvents(inputElement, hintElement) {
         hintElement.style.display = 'block';
     });
     inputElement.addEventListener('blur', () => {
+        if (inputElement.value.trim() === '') {
         hintElement.style.display = 'none';
+        }
+        //console.log('blur event triggered for input: ${inputElement.id}');
     });
 }
 
@@ -123,7 +133,10 @@ activitiesCheckboxes.forEach((checkbox) => {
 
     checkbox.addEventListener('blur', e => {
         const parentLabel = e.target.parentElement;
+        const focusLable = document.querySelector('.focus');
+        if (focusLable === parentLabel) {
         parentLabel.classList.remove('focus');
+        }
     });
 });
 
@@ -270,3 +283,16 @@ notes DOM Scription my examble./filter invitess who have not responded.took a fe
 //activitiesInput then added all checked chackboxes into activitiesCecked. 
 //forgot to add the hint , i dont even know if i did this right.
 
+/**Peer Review */
+//peer reviewed... Jamie Reardon found lots wrong..lol 
+//the color field was enabled... needed to disabled this on load. // 
+//I took shirtColor.disabled = true; outside of the eventListener and said it was true not false. then inside eventListener ir was false.
+// I also need to rework the payment infor. I didnt have credit card selected by default.
+//I first get paypall and bitcoin separately. Then have credit-card show and not paypal/bitcoin.
+//then when clicked it would show and the others would hide .
+//on blur had some trouble. NO lots of problems...
+//Jamie said the hint elements showed on blur for invalid fields and also show even on valid fields.
+//I kinda didn;t know what he was talking about(dont tell him that). so i googled exactly what he said.
+//I found a couple of example of blur fields at stackoverflow and w3school. And i found someone using trim()
+//I thought i ccould do the same thing for blur as i did in the zip/ccnumber/cvv fields and check if the input value is empty  with trim()
+//I still dont know if it truly worked...
