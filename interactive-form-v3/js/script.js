@@ -20,7 +20,6 @@ titleJob.addEventListener('change', e => {
 /**T-Shirt Info */
 const shirtColor = document.getElementById('color');
 const shirtDesign = document.getElementById('design');
-//const colorChildren = shirtColor.children;
 shirtColor.disabled = true;
 
 shirtDesign.addEventListener('change', () => {
