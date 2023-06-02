@@ -20,23 +20,39 @@ titleJob.addEventListener('change', e => {
 /**T-Shirt Info */
 const shirtColor = document.getElementById('color');
 const shirtDesign = document.getElementById('design');
-const colorChildren = document.getElementById('color').children;
+//const colorChildren = shirtColor.children;
 shirtColor.disabled = true;
 
-shirtDesign.addEventListener('change', (e) => {
-    shirtColor.disabled = false;
-
+shirtDesign.addEventListener('change', () => {
     const selectDesign = shirtDesign.value;
 
-    for(let i = 0; i < shirtColor.options.length; i++) {
+    shirtColor.selectedIndex = 0;
+
+    for(let i = 1; i < shirtColor.options.length; i++) {
         const option = shirtColor.options[i];
         const theme = option.getAttribute('data-theme');
 
         if(theme === selectDesign) {
-            option.style.display = 'block';
-        } else {
-            option.style.display = 'none';
+           option.style.display = 'block';
+    } else {
+        option.style.display = 'none';
+    }
+}
+    shirtColor.disabled = selectDesign === '';
+
+    if (!shirtColor.disabled) {
+      let visibleOptIndex = -1;
+    for(let i = 1; i < shirtColor.options.length; i++) {
+        const currentOption = shirtColor.options[i];
+
+        if(currentOption.style.display !== 'none') {
+            visibleOptIndex = i;
+            break;
         }
+    }
+    if (visibleOptIndex > -1) {
+        shirtColor.selectedIndex = visibleOptIndex;
+    }
     }
 });
 /**Register for Activites */
@@ -241,7 +257,14 @@ form.addEventListener('submit', e => {
 /*Found that example developer.mozilla/<select.:The HTML Select element. this is where i found most of the code example for this funcion.  */
 /*the mozilla/select element is where i found and used setAttribute/removeAttribute*/
 /*console kept telling me that removeAttribute still wasnt doing what i needed it to unil i rememberd we used the [i] for referencesto a collection of elements children.
-notes DOM Scription my examble./filter invitess who have not responded.took a few trys to find where to put them. */
+notes DOM Scription my examble./filter invitess who have not responded.took a few trys to find where to put them. 
+I submitted form and it needed more work. 
+relized you have to code this 2x.  
+the firs block updates the visibility of the color options based on the selected design.
+And the second code block ensures that when the user selects a design, the shirtColor dropdown is updated to show the first available color option associated with that design.
+I found examples of selectedIndex at developer.mozilla and w3schools.com. 
+the value -1 is used as a default value for 'visibleOptIndex' to indicate that no visible option has been found yet. if a visible option is found
+during the loop, its index is assigned to 'visibleOptIndex and later if visibleOptIndex is greater than -1 the corresponding option is selected. */
 
 /**Register for Activites */
 //selet the fieldset element
