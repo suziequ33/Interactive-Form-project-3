@@ -1,2 +1,2 @@
 # Interactive-Form-project-3
- treehouse-project#3
+ treehouse-project#3 Use JavaScript to interactive registration form for a fictional Full Stack conference. Added cutomized and conditional behavior and interactivity. Validating user input and providing helpful error messages when the user enters incalid information into the form fields. DOM elements, Checkboxes, Validation, preventDefault() method, Validation Errors.
